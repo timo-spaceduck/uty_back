@@ -4,6 +4,7 @@ node_modules
 /coverage
 package-lock.json
 yarn.lock
+deploy
 
 # local env files
 .env
