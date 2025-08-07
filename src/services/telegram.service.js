@@ -12,7 +12,7 @@ class TelegramService {
 		try {
 			const response = await axios.post(this.apiUrl, {
 				chat_id: this.chatId,
-				text: text,
+				text,
 				parse_mode: 'HTML' // or 'Markdown'
 			});
 

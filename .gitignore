@@ -2,15 +2,12 @@
 node_modules
 /dist
 /coverage
-package-lock.json
-yarn.lock
 deploy
 
 # local env files
 .env
 .env.local
 .env.*.local
-.yarn.lock
 
 # Log files
 npm-debug.log*
