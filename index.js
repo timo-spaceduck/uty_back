@@ -7,6 +7,9 @@ const PORT = process.env.PORT || 3000;
 
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // to accept x-www-form-urlencoded
+
 app.use('/api', routes);
 
 app.listen(PORT, () => {
