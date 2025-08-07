@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const statisticsRoutes = require('./statisticsRoute');
+const statisticsRoutes = require('./statistics.route');
 
 router.use('/stats', statisticsRoutes);
 

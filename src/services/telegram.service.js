@@ -1,0 +1,26 @@
+const axios = require('axios');
+require('dotenv').config();
+
+class TelegramService {
+	constructor() {
+		this.token = process.env.TELEGRAM_BOT_TOKEN;
+		this.chatId = process.env.TELEGRAM_CHAT_ID;
+		this.apiUrl = `https://api.telegram.org/bot${this.token}/sendMessage`;
+	}
+
+	async sendMessage(text) {
+		try {
+			const response = await axios.post(this.apiUrl, {
+				chat_id: this.chatId,
+				text: text,
+				parse_mode: 'HTML' // or 'Markdown'
+			});
+
+			return response.data;
+		} catch (error) {
+			console.error('Failed to send message:', error.response?.data || error.message);
+		}
+	}
+}
+
+module.exports = new TelegramService();
