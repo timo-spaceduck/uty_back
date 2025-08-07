@@ -1,0 +1,8 @@
+git add . && git commit --allow-empty -m "$1" && git push && ssh equhost << EOF
+  sudo -i
+  cd /var/www/ftpxyz/uty_back;
+  git pull;
+  yarn;
+  yarn build;
+  pm2 reload UtyNode;
+EOF
