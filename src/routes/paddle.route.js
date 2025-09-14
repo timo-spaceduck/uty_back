@@ -1,7 +1,8 @@
-const express = require('express');
+import express from 'express';
+import paddleController from '../controllers/paddle.controller.js';
+
 const router = express.Router();
-const paddleController = require('../controllers/paddle.controller');
 
 router.post('/webhook', paddleController.handleWebhook);
 
-module.exports = router;
+export default router;

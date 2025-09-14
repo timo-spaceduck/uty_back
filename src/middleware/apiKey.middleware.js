@@ -1,6 +1,7 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
-module.exports = function (req, res, next) {
+export default function (req, res, next) {
 	const authHeader = req.headers['authorization'];
 
 	if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -14,4 +15,4 @@ module.exports = function (req, res, next) {
 	}
 
 	next(); // token is valid, proceed
-};
+}

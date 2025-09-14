@@ -1,5 +1,6 @@
-const axios = require('axios');
-require('dotenv').config();
+import axios from 'axios';
+import dotenv from 'dotenv';
+dotenv.config();
 
 class TelegramService {
 	constructor() {
@@ -23,4 +24,4 @@ class TelegramService {
 	}
 }
 
-module.exports = new TelegramService();
+export default new TelegramService();

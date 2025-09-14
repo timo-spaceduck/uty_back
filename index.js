@@ -1,8 +1,9 @@
-const express = require('express');
-const cors = require('./src/services/cors.service');
-require('dotenv').config();
+import express from 'express';
+import cors from './src/services/cors.service.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const routes = require('./src/routes/routes');
+import routes from './src/routes/routes.js';
 
 const PORT = process.env.PORT || 3000;
 

@@ -1,7 +1,8 @@
-const express = require('express');
+import express from 'express';
+import statisticsController from '../controllers/statistics.controller.js';
+
 const router = express.Router();
-const statisticsController = require('../controllers/statistics.controller');
 
 router.post('/', statisticsController.sendMessage);
 
-module.exports = router;
+export default router;

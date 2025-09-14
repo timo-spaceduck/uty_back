@@ -1,11 +1,11 @@
-const express = require('express');
-const router = express.Router();
-const apiKeyMiddleware = require('./../middleware/apiKey.middleware');
+import express from 'express';
+import apiKeyMiddleware from '../middleware/apiKey.middleware.js';
+import statisticsRoutes from './statistics.route.js';
+import paddleRoutes from './paddle.route.js';
 
-const statisticsRoutes = require('./statistics.route');
-const paddleRoutes = require('./paddle.route');
+const router = express.Router();
 
 router.use('/stats', apiKeyMiddleware, statisticsRoutes);
 router.use('/paddle', paddleRoutes);
 
-module.exports = router;
+export default router;

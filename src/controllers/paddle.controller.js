@@ -1,41 +1,41 @@
-const crypto = require('crypto');
-require('dotenv').config();
+import crypto from 'crypto';
+import { Paddle, EventName } from '@paddle/paddle-node-sdk';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const paddle = new Paddle(process.env.PADDLE_API_KEY)
 
 const paddleController = {
     handleWebhook: async (req, res) => {
         try {
             const signature = req.headers['paddle-signature'];
-            const payload = JSON.stringify(req.body);
 
             if (!signature) {
                 return res.status(400).json({ error: 'Missing Paddle signature' });
             }
 
-            const isValid = verifyPaddleSignature(payload, signature);
-            if (!isValid) {
-                return res.status(401).json({ error: 'Invalid Paddle signature '+signature });
-            }
+            const eventData = await paddle.webhooks.unmarshal(req.body.toString(), process.env.PADDLE_WEBHOOK_KEY, signature);
 
-            const event = req.body;
+            console.log('eventData', eventData);
 
-            switch (event.event_type) {
-                case 'subscription.created':
-                    await handleSubscriptionCreated(event);
+            switch (eventData.eventType) {
+                case EventName.SubscriptionCreated:
+                    await handleSubscriptionCreated(eventData);
                     break;
                 case 'subscription.updated':
-                    await handleSubscriptionUpdated(event);
+                    await handleSubscriptionUpdated(eventData);
                     break;
                 case 'subscription.canceled':
-                    await handleSubscriptionCanceled(event);
+                    await handleSubscriptionCanceled(eventData);
                     break;
                 case 'transaction.completed':
-                    await handleTransactionCompleted(event);
+                    await handleTransactionCompleted(eventData);
                     break;
                 case 'transaction.refunded':
                     await handleTransactionRefunded(event);
                     break;
                 default:
-                    console.log(`Unhandled Paddle event: ${event.event_type}`);
+                    console.log(`Unhandled Paddle event: ${eventData.eventType}`);
             }
 
             res.status(200).json({ message: 'Webhook processed successfully' });
@@ -93,4 +93,4 @@ async function handleTransactionRefunded(event) {
     console.log('Transaction refunded:', event.data);
 }
 
-module.exports = paddleController;
+export default paddleController;

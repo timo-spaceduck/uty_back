@@ -1,9 +1,11 @@
 {
   "name": "uty_nodejs",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@paddle/paddle-node-sdk": "^3.2.1",
     "axios": "^1.11.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",

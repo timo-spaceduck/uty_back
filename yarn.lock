@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@paddle/paddle-node-sdk@^3.2.1":
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/@paddle/paddle-node-sdk/-/paddle-node-sdk-3.2.1.tgz#58736ac6f39cfdc3f48e30242996b1b1187ffc1f"
+  integrity sha512-0IfxqYCJLHyH7oCGbPWxIPxQKw4Zi6rg04UMvmN7EqlWdJi5RXfzFAqwGXK+3tqHYzEBpo3RxiL9B+k5gCt3Hw==
+
 accepts@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/accepts/-/accepts-2.0.0.tgz#bbcf4ba5075467f3f2131eab3cffc73c2f5d7895"

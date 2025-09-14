@@ -1,6 +1,6 @@
-const telegramService = require('./../services/telegram.service');
+import telegramService from '../services/telegram.service.js';
 
-exports.sendMessage = (req, res) => {
+export const sendMessage = (req, res) => {
 
 	const text = req.body?.eventTitle || 'No event title provided';
 
@@ -8,3 +8,5 @@ exports.sendMessage = (req, res) => {
 
 	res.json(true);
 };
+
+export default { sendMessage };
