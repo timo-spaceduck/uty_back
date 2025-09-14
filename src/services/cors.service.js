@@ -4,7 +4,9 @@ const allowedOrigins = [
 	'http://localhost:3000',
 	'http://localhost:3259',
 	'https://uty.lol',
-	'https://www.uty.lol'
+	'https://www.uty.lol',
+	'https://timo-dev.com',
+	'https://www.timo-dev.com',
 ];
 
 const corsOptions = {
