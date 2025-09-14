@@ -1,9 +1,12 @@
 import crypto from 'crypto';
-import { Paddle, EventName } from '@paddle/paddle-node-sdk';
+import { Paddle, EventName, Environment, LogLevel } from '@paddle/paddle-node-sdk';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const paddle = new Paddle(process.env.PADDLE_API_KEY)
+const paddle = new Paddle(process.env.PADDLE_API_KEY, {
+    environment: Environment.sandbox,
+    logLevel: LogLevel.verbose
+})
 
 const paddleController = {
     handleWebhook: async (req, res) => {
@@ -12,6 +15,10 @@ const paddleController = {
 
             if (!signature) {
                 return res.status(400).json({ error: 'Missing Paddle signature' });
+            }
+
+            if (!Buffer.isBuffer(req.body)) {
+                console.error("Request body is not a buffer");
             }
 
             console.log(signature);
