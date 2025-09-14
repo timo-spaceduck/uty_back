@@ -15,6 +15,7 @@ const paddleController = {
             }
 
             console.log(signature);
+            console.log(req.body.toString());
             console.log(process.env.PADDLE_WEBHOOK_KEY);
 
             const eventData = await paddle.webhooks.unmarshal(req.body.toString(), process.env.PADDLE_WEBHOOK_KEY, signature);
