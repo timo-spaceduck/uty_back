@@ -14,6 +14,9 @@ const paddleController = {
                 return res.status(400).json({ error: 'Missing Paddle signature' });
             }
 
+            console.log(signature);
+            console.log(process.env.PADDLE_WEBHOOK_KEY);
+
             const eventData = await paddle.webhooks.unmarshal(req.body.toString(), process.env.PADDLE_WEBHOOK_KEY, signature);
 
             console.log('eventData', eventData);
