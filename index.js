@@ -11,7 +11,7 @@ const app = express();
 
 app.use(cors);
 
-app.use(express.json());
+// app.use();
 app.use(express.urlencoded({ extended: true })); // to accept x-www-form-urlencoded
 
 app.use('/api', routes);

@@ -5,7 +5,7 @@ import paddleRoutes from './paddle.route.js';
 
 const router = express.Router();
 
-router.use('/stats', apiKeyMiddleware, statisticsRoutes);
+router.use('/stats', express.json(), apiKeyMiddleware, statisticsRoutes);
 router.use('/paddle', paddleRoutes);
 
 export default router;
