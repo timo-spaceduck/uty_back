@@ -13,7 +13,7 @@ const paddleController = {
 
             const isValid = verifyPaddleSignature(payload, signature);
             if (!isValid) {
-                return res.status(401).json({ error: 'Invalid Paddle signature' });
+                return res.status(401).json({ error: 'Invalid Paddle signature '+signature });
             }
 
             const event = req.body;
@@ -53,6 +53,9 @@ function verifyPaddleSignature(payload, signature) {
         console.error('PADDLE_PUBLIC_KEY environment variable is not set');
         return false;
     }
+
+    console.log(`PADDLE_PUBLIC_KEY environment variable is ${paddlePublicKey}`);
+    console.log(`signature is ${signature}`);
 
     try {
         const expectedSignature = crypto
