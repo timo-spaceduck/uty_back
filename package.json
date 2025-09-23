@@ -10,6 +10,8 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
+    "moment": "^2.30.1",
+    "node-cache": "^5.1.2",
     "openai": "^5.22.0",
     "pdf2json": "^3.2.2",
     "pdf2table": "^0.0.2",

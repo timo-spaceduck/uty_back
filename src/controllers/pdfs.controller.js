@@ -1,10 +1,11 @@
-// import fs from "fs";
-// import pdfTableExtractor from "../services/pdf.service.js"
-// import PDFParser from "pdf2json";
 import pdf2table from 'pdf2table';
 import { OpenAI } from "openai"
 import { zodResponseFormat } from "openai/helpers/zod";
 import { z } from "zod";
+import transactionDummy from '../data/transactions.js';
+import moment from "moment"
+import cache from "../services/cache.service.js"
+import telegramService from "../services/telegram.service.js"
 
 export const parsePDF = async (req, res) => {
 
@@ -13,10 +14,23 @@ export const parsePDF = async (req, res) => {
 		pdf2table.parse(req.body, async function(err, rows, rowsdebug) {
 			if(err) {
 				console.log(err);
-				res.json(false);
+				res.json([]);
 			}
 
-			// console.log(rows);
+			let string = ''
+			rows.forEach(row => {
+				if(string) string += '\n'
+				string += row.join(' || ')
+			})
+
+			const limitError = checkLimit(req.headers['financista']);
+
+			if(limitError) {
+				res.status(429).json(limitError);
+				return;
+			}
+
+			// console.log(string)
 
 			const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
@@ -32,36 +46,38 @@ export const parsePDF = async (req, res) => {
 				transactions: z.array(TransactionItem),
 			});
 
-			console.log(rows.join('||'));
-
-			res.json(rows);
-
-			return;
-
 			const openAICompletion = await openai.chat.completions.parse({
 				model: "gpt-4o-2024-08-06",
 				messages: [
 					{
 						role: "system",
-						content: "You are a financial data extractor. Extract bank transactions from provided text (not all provided text might be relevant). Each line is divided by '||' string (even though sometimes lines might be interconnected).",
+						content: "You are a financial data extractor. Extract bank transactions from provided text (not all provided text might be relevant). Each transaction starts with new line (even though not all lines are transactions). Each field is separated by  ' || '. Return dates in YYYY-MM-DD format.",
 					},
 					{
 						role: "user",
-						content: rows.join('||')
+						content: string
 					},
 				],
 				response_format: zodResponseFormat(TransactionsList, 'transactions_list'),
 			});
 
-			console.log(openAICompletion);
+			const finalData = openAICompletion?.choices?.[0]?.message?.parsed?.transactions || [];
 
-			res.json(openAICompletion?.choices?.[0]?.message?.parsed?.transactions || []);
+			// const finalData = transactionDummy;
+
+			finalData.map(item => {
+				item.date = moment(item.date).format('YYYY-MM-DD');
+			})
+
+			// await sleep(2000);
+
+			// console.log(finalData);
+
+			res.json(finalData);
 		});
-		// const pdfParsed = await extractPdfTable(req.body)
-		// console.log(pdfParsed);
 	} catch (error) {
 		console.log(error.message);
-		res.json(true);
+		res.json([]);
 	}
 
 
@@ -91,18 +107,30 @@ export const parsePDF = async (req, res) => {
 
 
 
-	// console.log('req');
-	// console.log(req.body);
-	//
-	// res.json({
-	// 	'message': 'PDF parsed successfully',
-	// 	'data': {
-	// 		'title': 'Sample PDF Title',
-	// 		'author': 'John Doe1',
-	// 		'pages': 10,
-	// 		'content': 'This is a sample content extracted from the PDF.'
-	// 	}
-	// });
 };
+
+function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+const checkLimit = (userId) => {
+	const key = `${userId}_count`
+
+	const counter = Number(cache.get(key) || 0)
+
+	console.log(key, counter)
+
+	telegramService.sendMessage(`user ${userId} used pdf to table ${counter + 1} times`).then().catch()
+
+	if(counter >= 3) {
+		return 'Limit exceeded';
+	}
+
+	const days = 2
+
+	cache.set(key , (counter + 1), 60*60*24*days )
+
+	return null
+}
 
 export default { parsePDF };
