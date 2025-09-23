@@ -9,7 +9,11 @@
     "axios": "^1.11.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "openai": "^5.22.0",
+    "pdf2json": "^3.2.2",
+    "pdf2table": "^0.0.2",
+    "zod": "3.25.76"
   },
   "scripts": {
     "start": "node index.js",
