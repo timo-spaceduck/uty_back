@@ -19,7 +19,9 @@ export const sendMessage = (req, res) => {
 			platform,
 			user_id,
 			message: text
-		}).then().catch(err => {
+		}).then(res => {
+			console.log('Message logged to database:', res.id);
+		}).catch(err => {
 			console.log('Error logging message to database:', err);
 		})
 	} catch (e) {
