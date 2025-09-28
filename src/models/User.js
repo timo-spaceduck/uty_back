@@ -15,6 +15,10 @@ const User = sequelize.define('User', {
 		type: DataTypes.STRING,
 		allowNull: true,
 	},
+	name: {
+		type: DataTypes.STRING,
+		allowNull: true,
+	},
 	created_at: {
 		type: DataTypes.DATE,
 		defaultValue: DataTypes.NOW,
