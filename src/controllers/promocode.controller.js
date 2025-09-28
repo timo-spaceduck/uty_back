@@ -16,16 +16,16 @@ export const checkPromocode = async (req, res) => {
 	});
 
 	if(!promocodeObj) {
-		return res.status(404).json(false);
+		return res.status(404).json({ valid: false });
 	}
 
 	if(promocodeObj.used_at && promocodeObj.user_id !== userId) {
-		return res.status(400).json(false);
+		return res.status(400).json({ valid: false });
 	}
 
 	promocodeObj.update({ used_at: new Date(), user_id : userId }).then();
 
-	return res.json(true);
+	return res.json({ valid: true });
 
 };
 
