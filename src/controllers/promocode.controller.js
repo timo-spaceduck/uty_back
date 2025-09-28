@@ -11,7 +11,7 @@ export const checkPromocode = async (req, res) => {
 
 	const project = 'money-log';
 
-	const promocodeObj = Promocode.findOne({
+	const promocodeObj = await Promocode.findOne({
 		where: { code, project }
 	});
 
