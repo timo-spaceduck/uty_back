@@ -11,10 +11,18 @@ class TelegramService {
 
 	async sendMessage(text) {
 		try {
-			const response = await axios.post(this.apiUrl, {
-				chat_id: this.chatId,
-				text,
-				parse_mode: 'HTML' // or 'Markdown'
+			// const response = await axios.post(this.apiUrl, {
+			// 	chat_id: this.chatId,
+			// 	text,
+			// 	parse_mode: 'HTML' // or 'Markdown'
+			// });
+
+			const response = await axios.get(this.apiUrl, {
+				data: {
+					chat_id: this.chatId,
+					text,
+					parse_mode: 'HTML' // or 'Markdown'
+				}
 			});
 
 			return response.data;
