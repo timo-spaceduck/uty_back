@@ -49,7 +49,7 @@ export const sendMessage = async (req, res) => {
 		console.error('Error creating db record:', e);
 	}
 
-	telegramService.sendMessage(text).then();
+	await telegramService.sendMessage(text);
 
 	res.json(true);
 };

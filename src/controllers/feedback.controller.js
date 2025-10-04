@@ -20,7 +20,7 @@ export const sendFeedback = async (req, res) => {
 		console.error('Error saving feedback:', err);
 	});
 
-	telegramService.sendMessage('Feedback sent '+message).then().catch();
+	await telegramService.sendMessage('Feedback sent '+message);
 
 	return res.json({ success: true });
 
