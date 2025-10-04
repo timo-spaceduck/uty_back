@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'UtyNode',
+      name: 'TimoDevNode',
       port: '3991',
       exec_mode: 'cluster',
       instances: '1',
