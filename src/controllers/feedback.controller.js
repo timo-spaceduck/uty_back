@@ -12,12 +12,10 @@ export const sendFeedback = async (req, res) => {
 
 	const project = 'money-log';
 
-	Feedback.create({
+	await Feedback.create({
 		message,
 		user_id: userId,
 		project
-	}).then().catch(err => {
-		console.error('Error saving feedback:', err);
 	});
 
 	await telegramService.sendMessage('Feedback sent '+message);
