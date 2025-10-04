@@ -19,7 +19,8 @@ class TelegramService {
 
 			return response.data;
 		} catch (error) {
-			console.error('Failed to send message:', error.response?.data || error.message);
+			console.error('Failed to send message:', error.response?.data || error.message || error);
+			console.log(error);
 		}
 	}
 }
