@@ -23,7 +23,7 @@ export const sendFeedback = async (req, res) => {
 	}
 
 
-	await telegramService.sendMessage('Feedback sent\n'+message);
+	await telegramService.sendMessage('Feedback sent\nUser id: '+userId+'\n'+message);
 
 	return res.json({ success: true });
 
