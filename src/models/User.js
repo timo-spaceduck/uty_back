@@ -19,6 +19,10 @@ const User = sequelize.define('User', {
 		type: DataTypes.STRING,
 		allowNull: true,
 	},
+	notifications_token: {
+		type: DataTypes.STRING,
+		allowNull: true,
+	},
 	created_at: {
 		type: DataTypes.DATE,
 		defaultValue: DataTypes.NOW,
