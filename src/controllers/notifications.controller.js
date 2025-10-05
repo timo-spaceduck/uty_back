@@ -1,4 +1,5 @@
 import Promocode from "../models/Promocode.js"
+import User from "../models/User.js"
 
 export const saveToken = async (req, res) => {
 
@@ -8,22 +9,14 @@ export const saveToken = async (req, res) => {
 	if(!token || !userId) {
 		return res.status(400)
 	}
-	//
-	// const project = 'money-log';
-	//
-	// const promocodeObj = await Promocode.findOne({
-	// 	where: { code, project }
-	// });
-	//
-	// if(!promocodeObj) {
-	// 	return res.status(404).json({ valid: false });
-	// }
-	//
-	// if(promocodeObj.used_at && promocodeObj.user_id !== userId) {
-	// 	return res.status(400).json({ valid: false });
-	// }
-	//
-	// promocodeObj.update({ used_at: new Date(), user_id : userId }).then();
+
+	const user = await User.findOne({
+		where: { uuid: user_id }
+	});
+
+	if(user) {
+		await user.update({ notifications_token: token });
+	}
 
 	return res.json({ created: true });
 
