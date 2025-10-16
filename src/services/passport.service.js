@@ -8,7 +8,11 @@ passport.use(
 					clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 					callbackURL: process.env.GOOGLE_CALLBACK_URL,
 				},
-				async (accessToken, refreshToken, profile, done) => {
+				async (accessToken, refreshToken, profile, cb) => {
+					console.log(profile)
+					// User.findOrCreate({ googleId: profile.id }, function (err, user) {
+					// 	return cb(err, user);
+					// });
 					// Here you can save user to DB
 					const user = {
 						id: profile.id,
@@ -16,12 +20,15 @@ passport.use(
 						email: profile.emails[0].value,
 						picture: profile.photos[0].value,
 					};
-					done(null, user);
+					cb(null, user);
 				}
 		)
 );
 
 const initPassport = (app) => {
+	console.log(process.env.GOOGLE_CLIENT_ID);
+	console.log(process.env.GOOGLE_CLIENT_SECRET);
+	console.log(process.env.GOOGLE_CALLBACK_URL);
 	app.use(passport.initialize());
 }
 
