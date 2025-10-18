@@ -11,14 +11,24 @@ export const getAll = async (req, res) => {
 export const syncAll = async (req, res) => {
 	const userId = req.user.id;
 	const { todos, notes, groups } = req.body;
-	await Todo.findOrCreate({
-		where: { web_user_id: userId },
-		defaults: {
-			todos,
-			notes,
-			todo_groups: groups
-		}
-	});
+
+	const fillData = {
+		web_user_id: userId,
+		todos,
+		notes,
+		todo_groups: groups
+	}
+
+	const item = await Todo.findOne({
+		where: { web_user_id: userId }
+	})
+
+	if(item) {
+		await item.update(fillData)
+	} else {
+		await Todo.create(fillData)
+	}
+
 	return res.json({ success: true });
 }
 
