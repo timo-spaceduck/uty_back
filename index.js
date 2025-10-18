@@ -15,15 +15,14 @@ const app = express();
 
 app.use(cors);
 app.use(cookieParser());
-initPassport(app);
-
 app.use(express.urlencoded({ extended: true })); // to accept x-www-form-urlencoded
+
+initPassport(app);
 
 app.use('/api', apiRoutes);
 app.use('/', webRoutes);
 
 await initDB()
-
 
 app.listen(PORT, () => {
 	console.log(`Server running on http://localhost:${PORT}`);

@@ -8,7 +8,7 @@ export const auth = passport.authenticate("google", {
 export const authCallback = (req, res) => {
 	try {
 		const user = req.user;
-		const token = jwt.sign(user, process.env.JWT_SECRET, {expiresIn: "1d"});
+		const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: "1d" });
 		res.cookie("token", token, {
 			httpOnly: true,
 			secure: false,

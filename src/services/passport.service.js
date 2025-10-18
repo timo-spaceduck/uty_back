@@ -1,5 +1,7 @@
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import WebUser from "../models/WebUser.js"
+import session from "express-session"
 
 passport.use(
 		new GoogleStrategy(
@@ -9,39 +11,41 @@ passport.use(
 					callbackURL: process.env.GOOGLE_CALLBACK_URL,
 				},
 				async (accessToken, refreshToken, profile, cb) => {
-					console.log(profile)
-					// User.findOrCreate({ googleId: profile.id }, function (err, user) {
-					// 	return cb(err, user);
-					// });
-					// Here you can save user to DB
-					const user = {
-						id: profile.id,
-						name: profile.displayName,
-						email: profile.emails[0].value,
-						picture: profile.photos[0].value,
-					};
-					cb(null, user);
+					const [user, created] = await WebUser.findOrCreate({
+						where: { provider_id: profile.id, provider: 'google' },
+						defaults: {
+							name: profile.displayName,
+							email: profile.emails[0].value,
+							first_name: profile.name?.givenName || '',
+							last_name: profile.name?.familyName || '',
+							image: profile.photos[0].value,
+						}
+					});
+					cb(null, user.dataValues);
 				}
 		)
 );
 
 const initPassport = (app) => {
-	console.log(process.env.GOOGLE_CLIENT_ID);
-	console.log(process.env.GOOGLE_CLIENT_SECRET);
-	console.log(process.env.GOOGLE_CALLBACK_URL);
+	app.use(session({
+		secret: process.env.JWT_SECRET,
+		resave: false,
+		saveUninitialized: false,
+		cookie: { secure: false } // for localhost use; set to true in production with HTTPS
+	}));
+
 	app.use(passport.initialize());
+	app.use(passport.session({}));
 }
 
-export { initPassport };
+passport.serializeUser((user, done) => {
+	done(null, user.id);
+});
 
-// app.get("/api/me", (req, res) => {
-// 	const token = req.cookies.token;
-// 	if (!token) return res.status(401).json({ error: "Not authenticated" });
-//
-// 	try {
-// 		const user = jwt.verify(token, process.env.JWT_SECRET);
-// 		res.json(user);
-// 	} catch {
-// 		res.status(401).json({ error: "Invalid token" });
-// 	}
-// });
+passport.deserializeUser((id, done) => {
+	WebUser.findByPk(id)
+			.then(user => done(null, user))
+			.catch(err => done(err));
+});
+
+export { initPassport };
