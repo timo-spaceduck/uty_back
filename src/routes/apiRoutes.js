@@ -6,6 +6,7 @@ import promocodeRoutes from './promocode.route.js';
 import notificationsRoutes from './notification.route.js';
 import pdfRoutes from './pdfs.route.js';
 import paddleRoutes from './paddle.route.js';
+import notificanRoutes from './notifican.route.js';
 import userRoutes from './user.route.js';
 import todoRoutes from './todo.route.js';
 import  { isAuthenticated } from "../middleware/authenticated.middleware.js"
@@ -19,6 +20,7 @@ router.use('/notifications', express.json(), apiKeyMiddleware, notificationsRout
 router.use('/user', express.json(), apiKeyMiddleware, userRoutes);
 router.use('/pdf', express.raw({ type: "application/pdf", limit: "10mb" }), apiKeyMiddleware, pdfRoutes);
 router.use('/paddle', paddleRoutes);
+router.use('/notifican', notificanRoutes);
 
 router.use('/todo', express.json(), apiKeyMiddleware, isAuthenticated, todoRoutes);
 

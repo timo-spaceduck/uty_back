@@ -1,6 +1,7 @@
 import telegramService from '../services/telegram.service.js';
 import Log from "../models/Log.js"
 import User from "../models/User.js"
+import {sendToNotifican} from "../services/notifican.service.js"
 
 export const sendMessage = async (req, res) => {
 
@@ -50,6 +51,8 @@ export const sendMessage = async (req, res) => {
 	}
 
 	await telegramService.sendMessage(text);
+
+	await sendToNotifican(text);
 
 	res.json(true);
 };
