@@ -6,6 +6,7 @@ import {sendToNotifican} from "../services/notifican.service.js"
 export const sendMessage = async (req, res) => {
 
 	let text = req.body?.eventTitle || 'No event title provided';
+	const data = req.body?.data || {};
 
 	try {
 		const splitText = text.split('\n');
@@ -52,7 +53,7 @@ export const sendMessage = async (req, res) => {
 
 	await telegramService.sendMessage(text);
 
-	await sendToNotifican(text);
+	await sendToNotifican(text, data);
 
 	res.json(true);
 };
