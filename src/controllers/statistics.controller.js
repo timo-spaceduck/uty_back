@@ -8,9 +8,6 @@ export const sendMessage = async (req, res) => {
 	let text = req.body?.eventTitle || 'No event title provided';
 	const data = req.body?.data || {};
 
-	console.log('jkljkl');
-	console.log(req.body);
-
 	try {
 		const splitText = text.split('\n');
 		let platform = 'web';
