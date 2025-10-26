@@ -4,12 +4,15 @@ const allowedOrigins = [
 	'http://localhost:3000',
 	'http://localhost:3259',
 	'http://localhost:3399',
+	'http://localhost:3369',
 	'https://uty.lol',
 	'https://www.uty.lol',
 	'https://timo-dev.com',
 	'https://www.timo-dev.com',
 	'https://money-log.app',
 	'https://www.money-log.app',
+	'https://notifican.com',
+	'https://www.notifican.com',
 ];
 
 const corsOptions = {
