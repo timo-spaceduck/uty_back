@@ -35,6 +35,7 @@ export const sendMessage = async (req, res) => {
 			});
 			if(user) {
 				text += `\nExisting user: ${user.name || user.id}`
+				data.userIdDb = user.id;
 			} else {
 				text += `\nNew user`
 				User.create({
